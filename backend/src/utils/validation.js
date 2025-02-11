@@ -20,6 +20,27 @@ const validateData = (req) => {
   }
 };
 
+const validateEditItems = function (req) {
+  const allowedUpdates = [
+    "firstName",
+    "lastName",
+    "age",
+    "password",
+    "photoUrl",
+    "about",
+    "skills",
+    "gender",
+  ];
+  const isValidUpdate = Object.keys(req.body).every((feild) =>
+    allowedUpdates.includes(feild)
+  );
+
+  if (!isValidUpdate) {
+    throw new Error("Cannot update");
+  }
+};
+
 module.exports = {
   validateData,
+  validateEditItems,
 };

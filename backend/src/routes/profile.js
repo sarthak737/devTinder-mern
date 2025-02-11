@@ -1,8 +1,10 @@
 const express = require("express");
 const profileRouter = express.Router();
 const { userAuth } = require("../middlewares/auth.js");
+const { validateEditItems } = require("../utils/validation.js");
+const bcrypt = require("bcrypt");
 
-profileRouter.get("/profile", userAuth, async (req, res) => {
+profileRouter.get("/view", userAuth, async (req, res) => {
   // try {
   //   const { token } = req.cookies;
   //   if (!token) {
@@ -28,6 +30,32 @@ profileRouter.get("/profile", userAuth, async (req, res) => {
   } catch (err) {
     res.send("error :" + err);
   }
+});
+
+profileRouter.patch("/edit", userAuth, async (req, res) => {
+  try {
+    const loggedInUser = req.user;
+    validateEditItems(req);
+    Object.keys(req.body).forEach((key) => (loggedInUser[key] = req.body[key]));
+    await loggedInUser.save();
+    res.send(loggedInUser);
+  } catch (err) {
+    console.log("Error ", err);
+  }
+});
+
+profileRouter.patch("/password", userAuth, async (req, res) => {
+  const loggedInUser = req.user;
+  let { password } = loggedInUser;
+  let newPassword = req.body.password;
+
+  newPassword = await bcrypt.hash(newPassword, 10);
+
+  loggedInUser.password = newPassword;
+
+  await loggedInUser.save();
+
+  res.send("Password updated");
 });
 
 module.exports = {

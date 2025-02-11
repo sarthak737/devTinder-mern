@@ -13,6 +13,7 @@ app.use(cookieParser());
 app.use("/auth", authRouter);
 app.use("/user", profileRouter);
 app.use("/request", requestRouter);
+app.use("/profile", profileRouter);
 // app.get("/feed", async (req, res) => {
 //   try {
 //     const users = await User.find({});
