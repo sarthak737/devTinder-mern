@@ -23,12 +23,19 @@ const userSchema = new Schema(
       },
     },
     password: { type: String, required: true, minLength: 8 },
+    // gender: {
+    //   type: String,
+    //   validate(value) {
+    //     if (!["male", "female", "others"].includes(value)) {
+    //       throw new Error(" Invalid gender");
+    //     }
+    //   },
+    // },
     gender: {
       type: String,
-      validate(value) {
-        if (!["male", "female", "others"].includes(value)) {
-          throw new Error(" Invalid gender");
-        }
+      enum: {
+        values: ["male", "female", "others"],
+        message: `{VALUE} is invalid gender`,
       },
     },
     photoUrl: {

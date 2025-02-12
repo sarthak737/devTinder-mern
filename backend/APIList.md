@@ -8,11 +8,11 @@ auth
 profile
 -PATCH /profile/edit
 -GET /profile/view
--PATCH /profile/updatePassword
+-PATCH /profile/password
 
 connectionReq
--POST /request/interested/:userID
--POST /request/ignore/:userID
+-POST /request/send/interested/:userID
+-POST /request/send/ignore/:userID
 -POST /request/review/accept/:requestID
 -POST /request/review/reject/:requestID
 
