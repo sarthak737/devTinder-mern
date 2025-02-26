@@ -29,7 +29,7 @@ authRouter.post("/login", async (req, res) => {
     if (isPassValid) {
       const token = await user.generateToken();
       res.cookie("token", token);
-      res.send("Logged in!");
+      res.send(user);
     } else {
       res.send("Wrong Password");
     }

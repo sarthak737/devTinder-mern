@@ -11,10 +11,14 @@ const { userRouter } = require("./routes/user.js");
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 app.use("/auth", authRouter);
-app.use("/user", profileRouter);
 app.use("/request", requestRouter);
 app.use("/profile", profileRouter);
 app.use("/user", userRouter);
@@ -70,8 +74,8 @@ app.use("/user", userRouter);
 connectDB()
   .then(() => {
     console.log("DB connected...");
-    app.listen(6666, () => {
-      console.log("Listening to 6666....");
+    app.listen(8000, () => {
+      console.log("Listening to 8000....");
     });
   })
   .catch((err) => {
