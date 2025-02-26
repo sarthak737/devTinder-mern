@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const { authRouter } = require("./routes/auth.js");
 const { profileRouter } = require("./routes/profile.js");
 const { requestRouter } = require("./routes/request.js");
+const { userRouter } = require("./routes/user.js");
 
 app.use(express.json());
 app.use(cookieParser());
@@ -14,6 +15,7 @@ app.use("/auth", authRouter);
 app.use("/user", profileRouter);
 app.use("/request", requestRouter);
 app.use("/profile", profileRouter);
+app.use("/user", userRouter);
 // app.get("/feed", async (req, res) => {
 //   try {
 //     const users = await User.find({});
