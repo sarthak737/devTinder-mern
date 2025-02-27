@@ -23,7 +23,7 @@ profileRouter.get("/view", userAuth, async (req, res) => {
   try {
     const user = req.user;
     if (user) {
-      res.send(user);
+      res.status(200).json({ user });
     } else {
       throw new Error("User not found");
     }

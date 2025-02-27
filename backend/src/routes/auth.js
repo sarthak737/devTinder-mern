@@ -23,7 +23,7 @@ authRouter.post("/login", async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email: email });
     if (!user) {
-      throw new Error("Account bna phele");
+      throw new Error("User not found");
     }
     const isPassValid = await user.validatePassword(password);
     if (isPassValid) {
@@ -31,10 +31,10 @@ authRouter.post("/login", async (req, res) => {
       res.cookie("token", token);
       res.send(user);
     } else {
-      res.send("Wrong Password");
+      return res.status(401).json({ message: "Wrong Password" });
     }
   } catch (err) {
-    res.status(400).send("hehe error " + err);
+    res.status(400).json({ message: err.message });
   }
 });
 
