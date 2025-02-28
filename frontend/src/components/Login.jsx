@@ -8,6 +8,7 @@ import { addUser } from "../utils/appStore/userSlice";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleSubmit = async () => {
@@ -25,7 +26,7 @@ const Login = () => {
       dispatch(addUser(res.data));
       return navigate("/");
     } catch (err) {
-      console.error(err);
+      setError(err?.response?.data?.message);
     }
   };
   return (
@@ -83,6 +84,7 @@ const Login = () => {
             >
               Login
             </button>
+            <p className="text-red-600">{error}</p>
           </div>
         </div>
       </div>
