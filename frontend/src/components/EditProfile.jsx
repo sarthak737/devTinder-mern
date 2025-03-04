@@ -14,7 +14,7 @@ const EditProfile = ({ user }) => {
   const handleEdit = async () => {
     try {
       const res = await axios.patch(
-        `http://localhost:8000/profile/edit`,
+        `${PROFILE_URL}/edit`,
         { firstName, password, photoUrl },
         { withCredentials: true }
       );
