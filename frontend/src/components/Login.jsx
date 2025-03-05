@@ -4,11 +4,18 @@ import { BASE_URL } from "../utils/appStore/constants";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addUser } from "../utils/appStore/userSlice";
+import { MdAddAPhoto } from "react-icons/md";
+import { FaUser } from "react-icons/fa";
+import { CiCalendarDate } from "react-icons/ci";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [photo, setPhoto] = useState("");
+  const [age, setAge] = useState("");
+  const [isLogin, setIsLogin] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleSubmit = async () => {
@@ -29,11 +36,32 @@ const Login = () => {
       setError(err?.response?.data?.message);
     }
   };
+  const handleSignUp = async () => {
+    try {
+      const res = await axios.post(
+        `${BASE_URL}/signup`,
+        {
+          email,
+          firstName,
+          photo,
+          age,
+          password,
+        },
+        { withCredentials: true }
+      );
+      dispatch(addUser(res.data));
+      return navigate("/profile");
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div className="flex justify-center items-center my-25">
       <div className="card bg-base-200 w-96 shadow-xl">
         <div className="card-body">
-          <h2 className="card-title justify-center">Login</h2>
+          <h2 className="card-title justify-center">
+            {isLogin ? "Login" : "Sign Up"}
+          </h2>
           <label className="input input-bordered input-primary flex items-center gap-2 mt-5">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -54,7 +82,49 @@ const Login = () => {
               }}
             />
           </label>
-          <label className="input input-bordered input-primary flex items-center gap-2 mt-2">
+
+          {!isLogin && (
+            <>
+              {" "}
+              <label className="input input-bordered input-primary flex items-center gap-2 mt-5">
+                <FaUser className="opacity-70" />
+                <input
+                  type="text"
+                  className="grow"
+                  placeholder="FirstName"
+                  value={firstName}
+                  onChange={(e) => {
+                    setFirstName(e.target.value);
+                  }}
+                />
+              </label>
+              <label className="input input-bordered input-primary flex items-center gap-2 mt-5">
+                <MdAddAPhoto className="opacity-70" />
+                <input
+                  type="text"
+                  className="grow"
+                  placeholder="Photo URL"
+                  value={photo}
+                  onChange={(e) => {
+                    setPhoto(e.target.value);
+                  }}
+                />
+              </label>
+              <label className="input input-bordered input-primary flex items-center gap-2 mt-5">
+                <CiCalendarDate className="opacity-70" />
+                <input
+                  type="number"
+                  className="grow"
+                  placeholder="Age"
+                  value={age}
+                  onChange={(e) => {
+                    setAge(e.target.value);
+                  }}
+                />
+              </label>
+            </>
+          )}
+          <label className="input input-bordered input-primary flex items-center gap-2 mt-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
@@ -78,14 +148,39 @@ const Login = () => {
             />
           </label>
           <div className="card-actions justify-center mt-2">
-            <button
-              className="btn btn-primary btn-block"
-              onClick={handleSubmit}
-            >
-              Login
-            </button>
+            {isLogin ? (
+              <button
+                className="btn btn-primary btn-block"
+                onClick={handleSubmit}
+              >
+                Login
+              </button>
+            ) : (
+              <button
+                className="btn btn-primary btn-block"
+                onClick={handleSignUp}
+              >
+                Sign Up
+              </button>
+            )}
             <p className="text-red-600">{error}</p>
           </div>
+          {isLogin && (
+            <p
+              onClick={() => setIsLogin(false)}
+              className="cursor-pointer opacity-65 text-center"
+            >
+              New User? Sign Up
+            </p>
+          )}
+          {!isLogin && (
+            <p
+              onClick={() => setIsLogin(true)}
+              className="cursor-pointer opacity-65 text-center"
+            >
+              Existing User? Sign In
+            </p>
+          )}
         </div>
       </div>
     </div>
