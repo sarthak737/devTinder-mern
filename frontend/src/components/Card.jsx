@@ -1,4 +1,23 @@
+import { useDispatch } from "react-redux";
+import { REQ_URL } from "../utils/appStore/constants";
+import { removeFeed } from "../utils/appStore/feedSlide";
+import axios from "axios";
+
 const Card = ({ user }) => {
+  if (!user) return;
+  const dispatch = useDispatch();
+  const requestHandle = async (status, _id) => {
+    try {
+      const res = await axios.post(
+        `${REQ_URL}/send/${status}/${_id}`,
+        {},
+        { withCredentials: true }
+      );
+      dispatch(removeFeed(_id));
+    } catch (err) {
+      console.log("Error send ", err);
+    }
+  };
   return (
     <div>
       <div className="card bg-ghost-100 w-96 shadow-xl">
@@ -9,8 +28,18 @@ const Card = ({ user }) => {
           <h2 className="card-title">{user.firstName}</h2>
           <p>Age: {user.age}</p>
           <div className="card-actions">
-            <button className="btn btn-secondary">Send req</button>
-            <button className="btn btn-primary">Ignore</button>
+            <button
+              className="btn btn-secondary"
+              onClick={() => requestHandle("interested", user._id)}
+            >
+              Send req
+            </button>
+            <button
+              className="btn btn-primary"
+              onClick={() => requestHandle("ignored", user._id)}
+            >
+              Ignore
+            </button>
           </div>
         </div>
       </div>
