@@ -1,4 +1,6 @@
-export const BASE_URL = "http://localhost:8000/auth";
-export const PROFILE_URL = "http://localhost:8000/profile";
-export const USER_URL = "http://localhost:8000/user";
-export const REQ_URL = "http://localhost:8000/request";
+const API_URL = import.meta.env.VITE_API_URL;
+
+export const BASE_URL = `${API_URL}/auth`;
+export const PROFILE_URL = `${API_URL}/profile`;
+export const USER_URL = `${API_URL}/user`;
+export const REQ_URL = `${API_URL}/request`;
