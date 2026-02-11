@@ -10,7 +10,7 @@ profileRouter.get("/view", userAuth, async (req, res) => {
   //   if (!token) {
   //     throw new Error("Token not found");
   //   }
-  //   const decodeToken = await jwt.verify(token, "sarthak");
+  //   const decodeToken = await jwt.verify(token, process.env.JWT_SECRET);
   //   const { _id } = decodeToken;
   //   const loggedInUser = await User.findById(_id);
   //   if (!loggedInUser) {
