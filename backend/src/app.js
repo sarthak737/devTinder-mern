@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://dev-tinder-mern-ten.vercel.app/",
+    origin: process.env.CLIENT_URL,
     credentials: true,
   }),
 );

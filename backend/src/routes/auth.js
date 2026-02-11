@@ -14,7 +14,7 @@ authRouter.post("/signup", async (req, res) => {
     const savedUser = await user.save();
 
     const token = await savedUser.generateToken();
-    res.cookie("token", token, { expires: new Date(Date.now() + 8 * 360000) });
+    res.cookie("token", token, { expires: new Date(Date.now() + 8 * 360000), httpOnly: true, secure: true, sameSite: "none" });
 
     res.send(savedUser);
   } catch (err) {
@@ -33,7 +33,7 @@ authRouter.post("/login", async (req, res) => {
     const isPassValid = await user.validatePassword(password);
     if (isPassValid) {
       const token = await user.generateToken();
-      res.cookie("token", token);
+      res.cookie("token", token, { httpOnly: true, secure: true, sameSite: "none" });
       res.send(user);
     } else {
       return res.status(401).json({ message: "Wrong Password" });
@@ -44,7 +44,7 @@ authRouter.post("/login", async (req, res) => {
 });
 
 authRouter.post("/logout", async (req, res) => {
-  res.cookie("token", null, { expires: new Date(Date.now()) });
+  res.cookie("token", null, { expires: new Date(Date.now()), httpOnly: true, secure: true, sameSite: "none" });
   res.send("User logout");
 });
 
