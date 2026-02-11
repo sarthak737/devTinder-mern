@@ -74,8 +74,8 @@ app.use("/user", userRouter);
 connectDB()
   .then(() => {
     console.log("DB connected...");
-    app.listen(8000, () => {
-      console.log("Listening to 8000....");
+    app.listen(process.env.PORT || 8000, () => {
+      console.log(`Listening to ${process.env.PORT || 8000}....`);
     });
   })
   .catch((err) => {
